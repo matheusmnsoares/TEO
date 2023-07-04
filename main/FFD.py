@@ -1,5 +1,5 @@
 #Implementação da heurística de solução inicial First Fit Decreasing (FFD)
-#Instancias de teste: Falkenauer_U
+#Instancias disponíveis para o teste: Falkenauer_U, Falkenauer_T, Scholl_1, Scholl_2 e Scholl_3 (copiar o path)
 #Encontradas em https://site.unibo.it/operations-research/en/research/bpplib-a-bin-packing-problem-library
 
 # weight[]: lista de pesos dos itens
@@ -7,6 +7,7 @@
 # c: capacidade de cada bin
 
 import os
+
 # Lê os pesos do arquivo de instancias e cria a lista weight
 def Le_Instancia(filename):
     try:
@@ -29,7 +30,7 @@ def FirstFitDecreasing(weight, n, c):
 
     # Ordena os itens em ordem decrescente de peso
     weight.sort(reverse=True)
-    # Place items one by one
+    # Adiciona os itens um por um
     for i in range(n):
         # Acha a primeira bin que pode acomodar weight[i]
         j = 0
@@ -45,8 +46,22 @@ def FirstFitDecreasing(weight, n, c):
             objetivo = objetivo + 1
     return objetivo
 
+# Testa uma única instancia
+
+capacidade = input("Defina a capacidade do bin: ")
+
+filename = "/home/TEO/main/Falkenauer/Falkenauer_U/Falkenauer_u120_04.txt"
+
+weight = Le_Instancia(filename)
+
+if weight:
+    n = len(weight)
+    c = int(capacidade) # Capacidade de cada bin ( dada em cada uma das instancias, alterar conforme necessário)
+    print("Numero mínimo de bins necessarias em", filename, ":", FirstFitDecreasing(weight, n, c))
+
 # Testa múltiplas instancias de uma pasta
-folder_path = "/home/TEO/main/Scholl/Scholl_1"
+
+"""folder_path = "/home/TEO/main/Falkenauer/Falkenauer_U"
 
 file_list = os.listdir(folder_path)
 file_list.sort()  # Ordena os arquivos por ordem alfabética
@@ -57,6 +72,5 @@ for filename in file_list:
         weight = Le_Instancia(file_path)
         if weight:
             n = len(weight)
-            c = 125 # Capacidade de cada bin ( dada em cada uma das instancias, alterar conforme necessário)
-            print("Number of bins required in", filename, ":", FirstFitDecreasing(weight, n, c))
-    
+            c = int(capacidade) # Capacidade de cada bin ( dada em cada uma das instancias, alterar conforme necessário)
+            print("Numero mínimo de bins necessarias em", filename, ":", FirstFitDecreasing(weight, n, c))"""
