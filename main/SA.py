@@ -74,7 +74,7 @@ def simulated_annealing(weight, n, c, initial_temperature, cooling_rate, stoppin
 
     return best_solution
 
-# TTesta uma única instancia usando Simulated Annealing
+# Testa uma única instancia usando Simulated Annealing
 filename = "/home/TEO/main/Wäscher/Waescher_TEST0005.txt"
 
 weight = Le_Instancia(filename)
