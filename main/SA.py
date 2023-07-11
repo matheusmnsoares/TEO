@@ -6,9 +6,6 @@ import importlib
 from FFD import Le_Instancia 
 from FFD import FirstFitDecreasing
 
-import random
-import math
-
 # Objective function using the FirstFitDecreasing heuristic
 def objective_function(weight, n, c):
     return FirstFitDecreasing(weight, n, c)
@@ -77,14 +74,14 @@ def simulated_annealing(weight, n, c, initial_temperature, cooling_rate, stoppin
 
     return best_solution
 
-# Test a single instance using Simulated Annealing
+# TTesta uma única instancia usando Simulated Annealing
 filename = "/home/TEO/main/Wäscher/Waescher_TEST0005.txt"
 
 weight = Le_Instancia(filename)
 
 if weight:
     n = len(weight)
-    c = 10000 # Capacity of each bin (given in each instance, modify as needed)
+    c = 10000 # Capacidade de cada bin ( dada em cada uma das instancias, alterar conforme necessário)
     initial_temperature = 100.0
     cooling_rate = 0.95
     stopping_temperature = 0.1
