@@ -48,16 +48,14 @@ def FirstFitDecreasing(weight, n, c):
 
 # Testa uma única instancia
 
-capacidade = input("Defina a capacidade do bin: ")
-
-filename = "/home/TEO/main/Falkenauer/Falkenauer_U/Falkenauer_u120_04.txt"
+"""filename = "/home/TEO/main/Wäscher/Waescher_TEST0005.txt"
 
 weight = Le_Instancia(filename)
 
 if weight:
     n = len(weight)
-    c = int(capacidade) # Capacidade de cada bin ( dada em cada uma das instancias, alterar conforme necessário)
-    print("Numero mínimo de bins necessarias em", filename, ":", FirstFitDecreasing(weight, n, c))
+    c = 10000 # Capacidade de cada bin ( dada em cada uma das instancias, alterar conforme necessário)
+    print("Numero mínimo de bins necessarias em", filename, ":", FirstFitDecreasing(weight, n, c))"""
 
 # Testa múltiplas instancias de uma pasta
 

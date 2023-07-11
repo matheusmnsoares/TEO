@@ -1,53 +1,95 @@
-#Simulated Annealing Algorithm general template
+#Simulated Annealing usando a heurística FirstFitDecreasing como solução inicial
 
 import math
 import random
+import importlib
+from FFD import Le_Instancia 
+from FFD import FirstFitDecreasing
 
-# Define your objective function f(x) here
-# You need to implement this function according to your problem
-def objective_function(x):
-    # Example: minimize a quadratic function (x^2)
-    return x * x
+import random
+import math
 
-# Generate a random neighbor within the neighborhood N(s)
-def generate_neighbor(s):
-    # Example: randomly generate a neighbor by adding a small random value (-0.1 to 0.1)
-    range_value = 0.1
-    return s + random.uniform(-range_value, range_value)
+# Objective function using the FirstFitDecreasing heuristic
+def objective_function(weight, n, c):
+    return FirstFitDecreasing(weight, n, c)
 
-# Set the algorithm parameters
-alpha = 0.9    # Cooling rate
-SAmax = 100    # Maximum number of iterations at each temperature
-T0 = 100.0     # Initial temperature
-T = T0         # Current temperature
-s = 0.0        # Current solution
-s_star = s     # Best solution obtained so far
-iterT = 0      # Iteration counter at current temperature
+# Technique 1: Relocation of a single selected item from one bin to another randomly selected bin
+def technique1(weight, n, c):
+    # Randomly select an item and its current bin
+    item_idx = random.randint(0, n - 1)
+    current_bin = weight[item_idx]
+    
+    # Randomly select a new bin
+    new_bin = random.randint(0, n - 1)
+    
+    # Relocate the item to the new bin
+    weight[item_idx] = new_bin
+    
+    return weight
 
-while T > 0:
-    iterT = 0
+# Technique 2: Random selection of two items allocated in two different bins and exchanging their positions
+def technique2(weight, n, c):
+    # Randomly select two items allocated in different bins
+    item_idx1, item_idx2 = random.sample(range(n), 2)
+    
+    # Exchange the positions of the two items
+    weight[item_idx1], weight[item_idx2] = weight[item_idx2], weight[item_idx1]
+    
+    return weight
 
-    while iterT < SAmax:
-        iterT += 1
+# Simulated Annealing implementation
+def simulated_annealing(weight, n, c, initial_temperature, cooling_rate, stopping_temperature):
+    # Initial solution
+    current_solution = objective_function(weight, n, c)
+    best_solution = current_solution
 
-        # Generate a random neighbor
-        s_prime = generate_neighbor(s)
+    # Initialize temperature
+    temperature = initial_temperature
 
-        # Calculate the difference in objective function values
-        delta = objective_function(s_prime) - objective_function(s)
-
-        if delta < 0:
-            s = s_prime
+    # Simulated Annealing loop
+    while temperature > stopping_temperature:
+        # Apply Technique 1 at higher temperatures, and Technique 2 at lower temperatures
+        if temperature > (initial_temperature / 2):
+            new_weight = technique1(list(weight), n, c)
         else:
-            x = random.random()
-            if x < math.exp(-delta / T):
-                s = s_prime
+            new_weight = technique2(list(weight), n, c)
 
-        # Update the best solution found so far
-        if objective_function(s_prime) < objective_function(s_star):
-            s_star = s_prime
+        # Calculate the objective function for the new solution
+        new_solution = objective_function(new_weight, n, c)
 
-    # Cool down the temperature
-    T = alpha * T
+        # Accept the new solution if it improves the objective function
+        if new_solution < current_solution:
+            weight = new_weight
+            current_solution = new_solution
+        else:
+            # Accept the new solution probabilistically based on the temperature
+            probability = math.exp((current_solution - new_solution) / temperature)
+            if random.random() < probability:
+                weight = new_weight
+                current_solution = new_solution
 
-print("Best solution found:", s_star)
+        # Update the best solution
+        if current_solution < best_solution:
+            best_solution = current_solution
+
+        # Decrease the temperature
+        temperature *= cooling_rate
+
+    return best_solution
+
+# Test a single instance using Simulated Annealing
+filename = "/home/TEO/main/Wäscher/Waescher_TEST0005.txt"
+
+weight = Le_Instancia(filename)
+
+if weight:
+    n = len(weight)
+    c = 10000 # Capacity of each bin (given in each instance, modify as needed)
+    initial_temperature = 100.0
+    cooling_rate = 0.95
+    stopping_temperature = 0.1
+
+    best_solution = simulated_annealing(weight, n, c, initial_temperature, cooling_rate, stopping_temperature)
+    print("Best solution found using Simulated Annealing for", filename, ":", best_solution)
+
+
