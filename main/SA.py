@@ -95,8 +95,8 @@ if weight:
     stopping_temperature = 0.1
 
     best_solution, execution_time = measure_execution_time(weight, n, c, initial_temperature, cooling_rate, stopping_temperature)
-    print("Best solution found using Simulated Annealing for", filename, ":", best_solution)
-    print("Execution time:", execution_time, "seconds")
+    print("Melhor solução encontrada com o Simulated Annealing:", filename, ":", best_solution)
+    print("Tempo de execução:", execution_time, "segundos")
 
 
 
