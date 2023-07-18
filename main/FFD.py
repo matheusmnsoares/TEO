@@ -29,7 +29,7 @@ def FirstFitDecreasing(weight, n, c):
     bin_rem = [0]*n
 
     # Ordena os itens em ordem decrescente de peso
-    weight.sort(reverse=True)
+    # weight.sort(reverse=True)
     # Adiciona os itens um por um
     for i in range(n):
         # Acha a primeira bin que pode acomodar weight[i]
@@ -48,14 +48,14 @@ def FirstFitDecreasing(weight, n, c):
 
 # Testa uma única instancia
 
-"""filename = "/home/TEO/main/Wäscher/Waescher_TEST0005.txt"
+filename = "/home/TEO/main/Wäscher/Waescher_TEST0005.txt"
 
 weight = Le_Instancia(filename)
 
 if weight:
     n = len(weight)
     c = 10000 # Capacidade de cada bin ( dada em cada uma das instancias, alterar conforme necessário)
-    print("Numero mínimo de bins necessarias em", filename, ":", FirstFitDecreasing(weight, n, c))"""
+    print("Numero mínimo de bins necessarias em", filename, ":", FirstFitDecreasing(weight, n, c))
 
 # Testa múltiplas instancias de uma pasta
 

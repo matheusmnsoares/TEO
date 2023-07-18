@@ -11,21 +11,18 @@ from FFD import FirstFitDecreasing
 def objective_function(weight, n, c):
     return FirstFitDecreasing(weight, n, c)
 
-# Técnica 1: Realocação de um único item selecionado de um bin para outro bin selecionado aleatoriamente
+# Técnica 1
 def technique1(weight, n, c):
-    # Aleatoriamente seleciona um item e seu bin atual
     item_idx = random.randint(0, n - 1)
-    current_bin = weight[item_idx]
     
-    # Aleatoriamente seleciona um novo bin
-    new_bin = random.randint(0, n - 1)
+    new_item = random.randint(0, n - 1)
+    #print(new_item)
     
-    # Realoca o item para o novo bin
-    weight[item_idx] = new_bin
+    weight[item_idx] = new_item
     
     return weight
 
-# Técnica 2: Seleção aleatória de dois itens alocados em dois bins diferentes e troca de suas posições
+# Técnica 2
 def technique2(weight, n, c):
     # Aleatoriamente seleciona dois itens alocados em bins diferentes
     item_idx1, item_idx2 = random.sample(range(n), 2)
