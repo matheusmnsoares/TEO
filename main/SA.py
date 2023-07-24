@@ -45,6 +45,7 @@ def FirstFitDecreasing(weight, n, bin_capacity):
 
     return objetivo, bins_used
 
+
 def cost_function(bins_used):
     return len(bins_used)
 
@@ -59,11 +60,11 @@ def simulated_annealing(weight, n, bin_capacity, initial_temperature, cooling_ra
 
     for i in range(max_iterations):
         # Generate a neighbor solution by perturbing the current solution
-        neighbor_bins_used = perturb_solution(bins_used,bin_capacity, temperature, initial_temperature)
-        # print("teste")
+        neighbor_bins_used = generate_neighbour(bins_used, bin_capacity)
+        print(neighbor_bins_used)
         # Calculate the cost (number of bins) of the neighbor solution
         neighbor_objective = cost_function(neighbor_bins_used)
-        # print(neighbor_objective)
+        #print(neighbor_objective)
 
         # Calculate the cost of the current solution
         current_objective = cost_function(bins_used)
@@ -89,48 +90,46 @@ def simulated_annealing(weight, n, bin_capacity, initial_temperature, cooling_ra
         
         # Cool down the temperature
         temperature *= cooling_rate
-
+    #print(len(neighbor_bins_used))
     return best_objective, best_solution
 
-def perturb_solution(bins_used, temperature, initial_temperature, bin_capacity):
+
+def generate_neighbour(bins_used, bin_capacity):
     num_bins = len(bins_used)
     if num_bins < 2:
         return bins_used
-
+    
     new_bins_used = [bin_content.copy() for bin_content in bins_used]
 
-    if temperature < initial_temperature/2:  # Use Technique 2 at lower temperatures
-        bin1, bin2 = random.sample(range(num_bins), 2)
-        if len(new_bins_used[bin1]) > 0 and len(new_bins_used[bin2]) > 0:
-            item1 = random.choice(new_bins_used[bin1])
-            item2 = random.choice(new_bins_used[bin2])
+    # Choose two bins randomly
+    bin1, bin2 = random.sample(range(num_bins), 2)
 
-            # Check if the swap maintains the capacity of both bins
-            if sum(new_bins_used[bin1]) - item1 + item2 <= bin_capacity and sum(new_bins_used[bin2]) - item2 + item1 <= bin_capacity:
-                new_bins_used[bin1].remove(item1)
-                new_bins_used[bin1].append(item2)
+    # Choose a random number of items to swap
+    num_items_to_swap = random.randint(1, min(len(new_bins_used[bin1]), len(new_bins_used[bin2])))
 
-                new_bins_used[bin2].remove(item2)
-                new_bins_used[bin2].append(item1)    
-    else:  # Use Technique 1 at higher temperatures
-        bin1, bin2 = random.sample(range(num_bins), 2)
-        if len(new_bins_used[bin1]) > 0:
-            item = random.choice(new_bins_used[bin1])
+    # Swap items between bins
+    for _ in range(num_items_to_swap):
+        item1 = random.choice(new_bins_used[bin1])
+        item2 = random.choice(new_bins_used[bin2])
+        if sum(new_bins_used[bin1]) - item1 + item2 <= bin_capacity and sum(new_bins_used[bin2]) - item2 + item1 <= bin_capacity:
+            new_bins_used[bin1].remove(item1)
+            new_bins_used[bin2].remove(item2)
+            new_bins_used[bin1].append(item2)
+            new_bins_used[bin2].append(item1)
 
-            # Check if the relocation maintains the capacity of the destination bin
-            if sum(new_bins_used[bin2]) + item <= bin_capacity:
-                new_bins_used[bin1].remove(item)
-                new_bins_used[bin2].append(item)
+    # Remove empty bins
+    new_bins_used = [bin_content for bin_content in new_bins_used if bin_content]
 
     return new_bins_used
 
-filename = "/home/TEO/main/Wäscher/Waescher_TEST0005.txt"  
+
+filename = "/home/TEO/main/Falkenauer/Falkenauer_U/Falkenauer_u120_00.txt"  
 weight = Le_Instancia(filename)
 n = len(weight)
-bin_capacity = 10000 # Replace with the bin capacity
+bin_capacity = 150 # Replace with the bin capacity
 initial_temperature = 1000
 cooling_rate = 0.95
-max_iterations = 1000
+max_iterations = 500000
 
 best_objective, best_solution = simulated_annealing(weight, n, bin_capacity, initial_temperature, cooling_rate, max_iterations)
 

@@ -53,6 +53,9 @@ def FirstFitDecreasing(weight, n, c):
 
     return objetivo, bins_used
 
+
+
+
 # Testa uma única instancia
 
 filename = "/home/TEO/main/Wäscher/Waescher_TEST0005.txt"
