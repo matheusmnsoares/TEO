@@ -4,6 +4,11 @@ import math
 def Le_Instancia(filename):
     try:
         with open(filename, 'r') as file:
+            # Skip the first two lines
+            for _ in range(2):
+                next(file)
+            
+            # lê os pesos dos itens a partir da 3ª linha (1° e 2° linha são informações sobre a instancia)
             weight = [int(line.strip()) for line in file]
             return weight
     except FileNotFoundError:
@@ -149,7 +154,7 @@ def simulated_annealing(weight, n, bin_capacity, initial_temperature=100, coolin
 
 filename = '/home/TEO/main/Falkenauer/Falkenauer_U/Falkenauer_u120_00.txt'
 bin_capacity = 150
-initial_temperature = 100
+initial_temperature = 1000
 cooling_rate = 0.95
 stopping_temperature = 1e-8
 max_iterations = 1000

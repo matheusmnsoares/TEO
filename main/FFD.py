@@ -12,6 +12,11 @@ import os
 def Le_Instancia(filename):
     try:
         with open(filename, 'r') as file:
+            # Skip the first two lines
+            for _ in range(2):
+                next(file)
+            
+            # lê os pesos dos itens a partir da 3ª linha (1° e 2° linha são informações sobre a instancia)
             weight = [int(line.strip()) for line in file]
             return weight
     except FileNotFoundError:
@@ -58,13 +63,13 @@ def FirstFitDecreasing(weight, n, c):
 
 # Testa uma única instancia
 
-filename = "/home/TEO/main/Wäscher/Waescher_TEST0005.txt"
+filename = "/home/TEO/main/Falkenauer/Falkenauer_U/Falkenauer_u120_00.txt"
 
 weight = Le_Instancia(filename)
 
 if weight:
     n = len(weight)
-    c = 10000 # Capacidade de cada bin ( dada em cada uma das instancias, alterar conforme necessário)
+    c = 150 # Capacidade de cada bin ( dada em cada uma das instancias, alterar conforme necessário)
     best_objective, best_solution = FirstFitDecreasing(weight, n, c)
     print("Numero mínimo de bins necessarias em", filename, ":" , best_objective) 
     print("Bins utilizadas:", best_solution)
