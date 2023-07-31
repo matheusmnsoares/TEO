@@ -173,10 +173,10 @@ def measure_execution_time(weight, n, bin_capacity, initial_temperature, cooling
     execution_time = end_time - start_time
     return best_objective, best_solution, execution_time
 
-filename = "/home/TEO/main/Falkenauer/Falkenauer_U/Falkenauer_u120_00.txt"  
+filename = "/home/TEO/main/Scholl/Scholl_3/HARD0.txt"  
 weight = Le_Instancia(filename)
 n = len(weight)
-bin_capacity = 150 # Replace with the bin capacity
+bin_capacity = 100000 # Replace with the bin capacity
 initial_temperature = 1000
 cooling_rate = 0.95
 max_iterations = 1000
